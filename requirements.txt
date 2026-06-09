@@ -8,3 +8,4 @@ joblib
 plotly
 matplotlib
 tqdm
+deap

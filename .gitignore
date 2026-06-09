@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+
+dataset/raw/
+dataset/processed/
+
+results/
+temp/
+.streamlit/

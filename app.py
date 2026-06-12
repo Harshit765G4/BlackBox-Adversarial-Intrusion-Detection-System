@@ -1,4 +1,8 @@
 import streamlit as st
+import warnings
+import sklearn.exceptions
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=sklearn.exceptions.DataConversionWarning)
 
 from gui.pages.dashboard import show_dashboard
 from gui.pages.detection import show_detection

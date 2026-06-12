@@ -12,6 +12,7 @@ Design decisions
 * Returns rich diagnostics for each query.
 """
 
+from altair import sample
 import numpy as np
 import pandas as pd
 import torch
@@ -71,6 +72,12 @@ class EnsembleOracle:
         -------
         dict with keys: prediction, probability, rf_prob, lgbm_prob, fnn_prob
         """
+
+        if not isinstance(sample, (list, np.ndarray)):
+            raise ValueError(f"sample must be list or ndarray, got {type(sample)}")
+        if len(sample) != len(feature_names):
+            raise ValueError(f"sample length {len(sample)} != features {len(feature_names)}")
+
         if self.budget_exceeded():
             raise RuntimeError(
                 f"Query budget of {self.query_limit} exceeded."
@@ -82,7 +89,7 @@ class EnsembleOracle:
         x = pd.DataFrame([sample], columns=feature_names)
 
         # RF
-        rf_prob = float(self._rf.predict_proba(x)[0][1])
+        rf_prob   = float(self._rf.predict_proba(x)[0][1])
 
         # LightGBM
         lgbm_prob = float(self._lgbm.predict_proba(x)[0][1])
@@ -116,3 +123,12 @@ def get_default_oracle(query_limit: int = 10_000) -> EnsembleOracle:
     if _default_oracle is None:
         _default_oracle = EnsembleOracle(query_limit)
     return _default_oracle
+
+
+
+import warnings
+warnings.filterwarnings(
+    "ignore",
+    message="X does not have valid feature names",
+    category=UserWarning
+)

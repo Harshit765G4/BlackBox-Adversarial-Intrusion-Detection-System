@@ -25,7 +25,7 @@ def main():
     parser = argparse.ArgumentParser(description="Black-Box GA Attack")
     parser.add_argument("--seed",    type=int, default=None,   help="Attack seed index")
     parser.add_argument("--budget",  type=int, default=10_000, help="Query budget")
-    parser.add_argument("--runs",    type=int, default=1,      help="Number of independent runs")
+    parser.add_argument("--runs",    type=int, default=5,      help="Number of independent runs")
     parser.add_argument("--out",     type=str, default=None,   help="Save result JSON to path")
     args = parser.parse_args()
 
